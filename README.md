@@ -50,17 +50,17 @@ Example Goal:
 
 ## Wireframes
 
-/login - page user authentication
+/login - page user authentication\
 /home- home page to view time, routines, and goals
 
 ![login and home](documentation/1.png)
 
-/routines - page for viewing all existing routines created by the user
+/routines - page for viewing all existing routines created by the user\
 /routines/create - page for creating a new routine and add exercises
 
 ![routines and create routines](documentation/2.png)
 
-/goals - page for all existing goals created by the user
+/goals - page for all existing goals created by the user\
 /goals/add - page for adding new goals and deadlines
 
 ![goals and add goals](documentation/3.png)
