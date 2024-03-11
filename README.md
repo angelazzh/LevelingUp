@@ -1,57 +1,44 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
-
-(__TODO__: your project name)
-
-# Shoppy Shoperson 
+# LevelingUp
 
 ## Overview
 
-(__TODO__: a brief one or two paragraph, high-level description of your project)
-
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
-
+Do you want to make a change in your life for the better? You can! Through LevelingUp, you get to fully customize your workout routine and set fitness goals! LevelingUp helps you keep track of your fitness journey. You can register for an account and log your routine. For each routine, you can add exercises and check them off as you go. You can also set goals for each workout so you know your progress!
 
 ## Data Model
 
-(__TODO__: a description of your application's data and their relationships to each other) 
+LevelingUp will have data regarding the user and their respective workout routine and goals.
 
-The application will store Users, Lists and Items
+* A user can have multiple workout routines
+* Each workout routine will have a list of different exercises and goals
 
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
-
-(__TODO__: sample documents)
-
-An Example User:
+Example User:
 
 ```javascript
 {
-  username: "shannonshopper",
-  hash: // a password hash,
-  lists: // an array of references to List documents
+  username: "gymrat",
+  hash: // hashed password,
+  routines: // array of references to workout routines
 }
 ```
 
-An Example List with Embedded Items:
+Example Workout Routine:
 
 ```javascript
 {
-  user: // a reference to a User object
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
+  user: // reference to a User object
+  name: "Leg Day",
+  exercises: [
+    {exercise: "squats", sets: 4, reps: 10},
+    {exercise: "RDLs", sets: 4, reps: 10},
+    {exercise: "hip abductors", sets: 4, reps: 12},
+    {exercise: "leg extensions", sets: 3, reps: 12},
   ],
-  createdAt: // timestamp
+  goal: // user sets goal
 }
 ```
-
 
 ## [Link to Commented First Draft Schema](db.mjs) 
 
-(__TODO__: create a first draft of your Schemas in db.mjs and link to it)
 
 ## Wireframes
 
@@ -77,32 +64,30 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 ## User Stories or Use Cases
 
-(__TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://en.wikipedia.org/wiki/Use_case))
-
-1. as non-registered user, I can register a new account with the site
-2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+1. as new user, I can register for a new account when I got on the website
+2. as a user, I can log in to the website
+3. as a user, I can create one or more workout routines
+4. as a user, I can set specific goals within each workout routine and see them all together on the goals page
+5. as a user, I can cross off exercises after I have done them
+6. as a user, I can add exercises and goals to a workout routine
 
 ## Research Topics
 
 (__TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed)
 
-* (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
+* (6 points) User authentication
+    * User authentication is the process in which authorized users can access the website that are somewhat customized/private to them
+    * Passport is a middleware that authenticates requests
+    * MongoDB will be used to store user information
+    * This library has many nuances to learn, so I will be giving this task 6 points
+  
+* (4 points) Show day of the week after user login
+    * Accessing time is important for my website because it provides more accessibility
+    * Users can see the day of the week on the home page so they can better navigate their workout routine
+    * I will be using Moment.js to accomplish this
+    * Moment.js can easily fetch and manipulate time on the web
 
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit)
-
+10 points in total
 
 ## [Link to Initial Main Project File](app.mjs) 
 
@@ -112,6 +97,6 @@ Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia
 
 (__TODO__: list any tutorials/references/etc. that you've based your code off of)
 
-1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
-2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
-
+1. [passport.js docs](http://passportjs.org/docs)
+2. [implement passport with node.js tutorial](https://medium.com/@prashantramnyc/node-js-with-passport-authentication-simplified-76ca65ee91e5)
+3. [moment.js docs](https://momentjs.com/)
