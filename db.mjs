@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-//mongoose.connect(process.env.DSN,);
+mongoose.connect(process.env.DSN,);
 
-const ExerciseRoutine = new mongoose.Schema({
+const ExerciseSchema = new mongoose.Schema({
     exerciseName: String,
     sets: Number,
     reps: Number
@@ -13,7 +13,7 @@ const RoutineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    exercises: [RoutineSchema]
+    exercises: [ExerciseSchema]
 });
 const Routine = mongoose.model('Routine', RoutineSchema);
 
@@ -38,17 +38,20 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    routines: {
+    routines: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Routine",
         unique: [true, 'The routine name already exists']
-    },
-    goals: {
+    }],
+    goals: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Goal",
         unique: [true, 'The goal already exists']
-    },
+    }],
 });
 const User = mongoose.model('User', UserSchema);
 
-export {Exercise, Routine, Goal, User};
+export {User};
+export {Exercise};
+export {Routine};
+export {Goal};

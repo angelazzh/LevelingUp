@@ -1,11 +1,36 @@
-import './db.mjs';
-import express from 'express'
-import path from 'path'
+import express from 'express';
+import { engine } from 'express-handlebars';
+import './config.mjs';
+//import './db.mjs';
+import path from 'path';
 import { fileURLToPath } from 'url';
+import { User } from './db.mjs';
+
 
 const app = express();
-app.set('view engine', 'hbs');
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.listen(process.env.PORT || 3000);
+app.engine('hbs', engine({ extname: '.hbs', defaultLayout: 'main' }));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', async (req, res) => {
+    try {
+        const user = await User.findOne(); 
+        res.render('home', {
+            layout: 'main', 
+            name: user.username, 
+            date: new Date().toDateString()
+        });
+    }catch (error){
+        console.error(error);
+        res.status(500).send('Error fetching user');
+    }
+});
+
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+});
