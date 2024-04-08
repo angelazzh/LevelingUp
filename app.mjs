@@ -2,6 +2,7 @@ import express from 'express';
 import { engine } from 'express-handlebars';
 import './config.mjs';
 import path from 'path';
+import moment from 'moment';
 import { fileURLToPath } from 'url';
 import { User, Routine } from './db.mjs';
 
@@ -18,11 +19,22 @@ app.use(express.json());
 
 app.get('/', async (req, res) => {
     try {
-        const user = await User.findOne(); 
+        const user = await User.findOne();
+        const currentTime = moment();
+        let greeting = "Hello";
+
+        if (currentTime.hour() < 12) {
+            greeting = "Good Morning";
+        } else if (currentTime.hour() < 18) {
+            greeting = "Good Afternoon";
+        } else {
+            greeting = "Good Evening";
+        }
         res.render('home', {
-            layout: 'main', 
-            name: user.username, 
-            date: new Date().toDateString()
+            layout: 'main',
+            name: user.username,
+            greeting,
+            date: currentTime.format('dddd, MMMM Do YYYY') 
         });
     }catch (error){
         console.error(error);
