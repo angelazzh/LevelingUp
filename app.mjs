@@ -1,6 +1,6 @@
+import './config.mjs';
 import express from 'express';
 import { engine } from 'express-handlebars';
-import './config.mjs';
 import path from 'path';
 import moment from 'moment';
 import { fileURLToPath } from 'url';
@@ -93,5 +93,5 @@ app.post('/routines/create', async (req, res) => {
 });  
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server is running on port ${process.env.PORT || 3000}`);
+    console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
 });
