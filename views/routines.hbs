@@ -1,0 +1,10 @@
+<h1>Workout Routines</h1>
+<ul>
+  {{#each routines}}
+    <li>
+      <a href="/routines/{{this._id}}">{{this.name}}</a>
+    </li>
+  {{/each}}
+</ul>
+
+<a href="/routines/create">Create Routine</a>

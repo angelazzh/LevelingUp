@@ -38,12 +38,20 @@ section {
     margin: 20px 0;
 }
   
-.routines h2, .goals h2 {
+.routines a, .goals a {
     border-bottom: 2px solid #333;
     display: inline-block;
     margin-bottom: 10px;
+    margin-left: 40%;
+    font-size: larger;
 }
-  
+
+.routines a:link, .routines a:visited,
+.goals a:link, .goals a:visited {
+    text-decoration: none; 
+    color: black; 
+} 
+
 .content {
     display: grid;
     grid-template-columns: 1fr 1fr;

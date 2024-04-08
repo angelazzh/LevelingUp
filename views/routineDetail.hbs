@@ -1,0 +1,10 @@
+{{#with routine}}
+  <h1>{{name}} Exercises</h1>
+  <ul>
+    {{#each exercises}}
+      <li>{{exerciseName}} - Sets: {{sets}}, Reps: {{reps}}</li>
+    {{/each}}
+  </ul>
+{{/with}}
+
+<a href="/routines">Back to Routines</a>

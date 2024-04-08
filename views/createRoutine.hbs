@@ -1,0 +1,40 @@
+<form action="/routines/create" method="post">
+  <label for="routineName">Name of routine:</label>
+  <input type="text" id="routineName" name="routineName" required>
+
+  <div class="exercises-container">
+    <div class="exercise">
+      <label for="exerciseName">Exercise name:</label>
+      <input type="text" name="exerciseName[]" required>
+
+      <label for="sets">Number of sets:</label>
+      <input type="number" name="sets[]" required>
+
+      <label for="reps">Number of reps per set:</label>
+      <input type="number" name="reps[]" required>
+    </div>
+  </div>
+
+  <button type="button" id="addExercise">Add Exercise</button>
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+    document.getElementById('addExercise').addEventListener('click', function() {
+        const container = document.querySelector('.exercises-container');
+        const exerciseDiv = document.createElement('div');
+        exerciseDiv.className = 'exercise';
+        
+        exerciseDiv.innerHTML = `
+            <label>Exercise name:</label>
+            <input type="text" name="exerciseName[]" required>
+
+            <label>Number of sets:</label>
+            <input type="number" name="sets[]" required>
+
+            <label>Number of reps per set:</label>
+            <input type="number" name="reps[]" required>
+        `;
+        container.appendChild(exerciseDiv);
+    });
+</script>
