@@ -2,7 +2,7 @@
 
 ## Overview
 
-Do you want to make a change in your life for the better? You can! Through LevelingUp, you get to fully customize your workout routine and set fitness goals! LevelingUp helps you keep track of your fitness journey. You can register for an account and log your routine. For each routine, you can add exercises and check them off as you go. You can also set goals so you are aware of your progress!
+Do you want to make a change in your life for the better? You can! Through LevelingUp, you get to fully customize your workout routine and set fitness goals! LevelingUp helps you keep track of your fitness journey. You can register for an account and log your routine. For each routine, you can add as many exercises as you desire. You can also set goals so you are aware of your progress!
 
 ## Data Model
 
@@ -40,8 +40,9 @@ Example Goal:
 
 ```javascript
 {
-  goal: "I want to be able to squat 70 pounds",
-  accomplishTime: // user sets deadline
+  description: "I want to be able to squat 70 pounds",
+  targetDate: // user sets deadline,
+  completed: False
 }
 ```
 
@@ -75,8 +76,7 @@ Example Goal:
 2. as a user, I can log in to the website
 3. as a user, I can create one or more workout routines
 4. as a user, I can set specific goals and deadlines
-5. as a user, I can cross off exercises after I have done them
-6. as a user, I can add exercises and goals
+5. as a user, I can add exercises and goals
 
 ## Research Topics
 

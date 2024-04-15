@@ -1,0 +1,15 @@
+<h1>Your Goals</h1>
+<ul>
+    {{#each goals}}
+        <li>
+            {{description}}
+            <form method="post" action="/goals/{{this._id}}/complete">
+                <button type="submit">Mark as Completed</button>
+            </form>
+            <form method="post" action="/goals/{{this._id}}/delete">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {{/each}}
+</ul>
+<a href="/goals/create">Add New Goal</a>

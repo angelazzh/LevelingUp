@@ -4,7 +4,7 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import moment from 'moment';
 import { fileURLToPath } from 'url';
-import { User, Routine } from './db.mjs';
+import { User, Routine, Goal } from './db.mjs';
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -52,6 +52,16 @@ app.get('/routines', async (req, res) => {
     }
   });
 
+app.get('/goals', async (req, res) => {
+    try {
+        const goals = await Goal.find().lean();
+        res.render('goals', { goals });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error fetching goals");
+    }
+});
+
 app.get('/routines/create', (req, res) => {
     res.render('createRoutine');
 }); 
@@ -67,7 +77,11 @@ app.get('/routines/:id', async (req, res) => {
       console.error(error);
       res.status(500).send('Error fetching routine details');
     }
-}); 
+});
+
+app.get('/goals/create', (req, res) => {
+  res.render('createGoal');
+});
 
 app.post('/routines/create', async (req, res) => {
     const { routineName, exerciseName, sets, reps } = req.body;
@@ -91,6 +105,21 @@ app.post('/routines/create', async (req, res) => {
       res.status(500).send('Server Error');
     }
 });  
+
+app.post('/goals/create', async (req, res) => {
+  try {
+      const { description, targetDate } = req.body;
+      const newGoal = new Goal({
+          description,
+          targetDate
+      });
+      await newGoal.save();
+      res.redirect('/goals');
+  } catch (error) {
+      console.error('Error creating goal:', error);
+      res.status(500).send('Failed to create goal');
+  }
+});
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT ?? 3000}`);

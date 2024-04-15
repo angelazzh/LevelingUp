@@ -4,7 +4,7 @@ mongoose.connect(process.env.DSN,);
 const ExerciseSchema = new mongoose.Schema({
     exerciseName: String,
     sets: Number,
-    reps: Number
+    reps: Number,
 });
 const Exercise = new mongoose.model('Exercise', ExerciseSchema);
 
@@ -18,15 +18,20 @@ const RoutineSchema = new mongoose.Schema({
 const Routine = mongoose.model('Routine', RoutineSchema);
 
 const GoalSchema = new mongoose.Schema({
-    goal: {
+    description: {
         type: String,
         required: true
     },
-    accomplishTime: {
-        type: Date,
-        default: Date.now
+    targetDate: {
+        type: String,
+        required: true
+    },
+    completed: {
+        type: Boolean,
+        default: false
     }
 });
+
 const Goal = mongoose.model('Goal', GoalSchema);
 
 const UserSchema = new mongoose.Schema({
