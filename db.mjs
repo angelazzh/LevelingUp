@@ -46,12 +46,10 @@ const UserSchema = new mongoose.Schema({
     routines: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Routine",
-        unique: [true, 'The routine name already exists']
     }],
     goals: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Goal",
-        unique: [true, 'The goal already exists']
     }],
 });
 const User = mongoose.model('User', UserSchema);

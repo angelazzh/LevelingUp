@@ -1,23 +1,32 @@
-<form action="/routines/create" method="post">
-  <label for="routineName">Name of routine:</label>
-  <input type="text" id="routineName" name="routineName" required>
+<div class="container">
+  <header>
+    <a href="/" style="text-decoration: none; color: inherit;">
+      <h1>LEVELING UP</h1>
+    </a>
+  </header>
+  <div class="center">
+    <form action="/routines/create" method="post">
+      <label for="routineName">Name of routine:</label>
+      <input type="text" id="routineName" name="routineName" required>
 
-  <div class="exercises-container">
-    <div class="exercise">
-      <label for="exerciseName">Exercise name:</label>
-      <input type="text" name="exerciseName[]" required>
+      <div class="exercises-container">
+        <div class="exercise">
+          <label for="exerciseName">Exercise name:</label>
+          <input type="text" name="exerciseName[]" required>
 
-      <label for="sets">Number of sets:</label>
-      <input type="number" name="sets[]" required>
+          <label for="sets">Number of sets:</label>
+          <input type="number" name="sets[]" required>
 
-      <label for="reps">Number of reps per set:</label>
-      <input type="number" name="reps[]" required>
-    </div>
+          <label for="reps">Number of reps per set:</label>
+          <input type="number" name="reps[]" required>
+        </div>
+      </div>
+
+      <button type="button" id="addExercise">Add Exercise</button>
+      <input type="submit" value="Submit">
+    </form>
   </div>
-
-  <button type="button" id="addExercise">Add Exercise</button>
-  <input type="submit" value="Submit">
-</form>
+</div>
 
 <script>
     document.getElementById('addExercise').addEventListener('click', function() {

@@ -121,6 +121,33 @@ app.post('/goals/create', async (req, res) => {
   }
 });
 
+app.post('/goals/:id/toggle-complete', async (req, res) => {
+  const goalId = req.params.id;
+  try {
+      const goal = await Goal.findById(goalId);
+      if (!goal) {
+          return res.status(404).send('Goal not found');
+      }
+      goal.completed = !goal.completed;
+      await goal.save();
+      res.redirect('/goals');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Failed to toggle the goal status');
+  }
+});
+
+
+app.post('/goals/:id/delete', async (req, res) => {
+  try {
+      await Goal.findByIdAndDelete(req.params.id);
+      res.redirect('/goals');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error deleting goal');
+  }
+});
+
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT ?? 3000}`);
 });
