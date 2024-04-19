@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-mongoose.connect(process.env.DSN,);
+import passportLocalMongoose from 'passport-local-mongoose';
+mongoose.connect(process.env.DSN);
 
 const ExerciseSchema = new mongoose.Schema({
     exerciseName: String,
@@ -8,10 +9,37 @@ const ExerciseSchema = new mongoose.Schema({
 });
 const Exercise = new mongoose.model('Exercise', ExerciseSchema);
 
+const UserSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    // password: {
+    //     type: String,
+    //     required: true
+    // },
+    routines: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Routine",
+    }],
+    goals: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Goal",
+    }],
+});
+UserSchema.plugin(passportLocalMongoose);
+const User = mongoose.model('User', UserSchema);
+
+
 const RoutineSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    user: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' 
     },
     exercises: [ExerciseSchema]
 });
@@ -22,6 +50,10 @@ const GoalSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    user: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User' 
+    },
     targetDate: {
         type: String,
         required: true
@@ -31,28 +63,7 @@ const GoalSchema = new mongoose.Schema({
         default: false
     }
 });
-
 const Goal = mongoose.model('Goal', GoalSchema);
-
-const UserSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    routines: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Routine",
-    }],
-    goals: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Goal",
-    }],
-});
-const User = mongoose.model('User', UserSchema);
 
 export {User};
 export {Exercise};

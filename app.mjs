@@ -5,6 +5,9 @@ import path from 'path';
 import moment from 'moment';
 import { fileURLToPath } from 'url';
 import { User, Routine, Goal } from './db.mjs';
+import session from 'express-session';
+import passport from 'passport';
+import flash from 'connect-flash';
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,29 +20,96 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-app.get('/', async (req, res) => {
-    try {
-        const user = await User.findOne();
-        const currentTime = moment();
-        let greeting = "Hello";
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(flash());
 
-        if (currentTime.hour() < 12) {
-            greeting = "Good Morning";
-        } else if (currentTime.hour() < 18) {
-            greeting = "Good Afternoon";
-        } else {
-            greeting = "Good Evening";
-        }
-        res.render('home', {
-            layout: 'main',
-            name: user.username,
-            greeting,
-            date: currentTime.format('dddd, MMMM Do YYYY') 
-        });
-    }catch (error){
-        console.error(error);
-        res.status(500).send('Error fetching user');
-    }
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.get('/register', (req, res) => {
+  res.render('register'); 
+});
+
+app.post('/register', async (req, res) => {
+  try {
+      const { username, password } = req.body;
+      const newUser = new User({ username });
+      await User.register(newUser, password);
+      req.login(newUser, (err) => {
+          if (err) {
+            console.error(err);
+            return res.render('register', { error: 'Auto-login failed.' });
+          }
+          return res.redirect('/');
+      });
+  } catch (error) {
+      if (error.name === 'UserExistsError') {
+          return res.render('register', { error: 'Username already taken.' });
+      }
+      console.error(error);
+      res.render('register', { error: 'Failed to create new user. Please try again.' });
+  }
+});
+
+app.get('/login', (req, res) => {
+  res.render('login', { messages: { error: req.flash('error') } });
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',         
+  failureRedirect: '/login',   
+  failureFlash: true
+}));
+
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+      if (err) {
+          console.error('Logout failed:', err);
+          return res.status(500).send('Logout failed');
+      }
+      res.redirect('/');
+  });
+});
+
+app.get('/', async (req, res) => {
+  try {
+      const user = req.user;
+      let routines = [];
+      let goals = [];
+      if (user) {
+          routines = await Routine.find({ user: user._id }).lean();
+          goals = await Goal.find({ user: user._id }).lean();
+      }
+      const currentTime = moment();
+      let greeting = "Hello";
+      if (currentTime.hour() < 12) {
+          greeting = "Good Morning";
+      } else if (currentTime.hour() < 18) {
+          greeting = "Good Afternoon";
+      } else {
+          greeting = "Good Evening";
+      }
+      res.render('home', {
+          layout: 'main',
+          user: user,
+          name: req.user ? req.user.username : 'Guest',
+          routines: routines,
+          goals: goals,
+          greeting: greeting,
+          date: currentTime.format('dddd, MMMM Do YYYY')
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching user');
+  }
 });
 
 app.get('/routines', async (req, res) => {
@@ -136,7 +206,6 @@ app.post('/goals/:id/toggle-complete', async (req, res) => {
       res.status(500).send('Failed to toggle the goal status');
   }
 });
-
 
 app.post('/goals/:id/delete', async (req, res) => {
   try {

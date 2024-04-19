@@ -23,6 +23,19 @@ header {
     text-align: center;
 }
 
+.log a {
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    right: 150px;
+}
+
+.log a:hover {
+    background-color: #0056b3;
+}
+
 .center {
     max-width: fit-content;
     margin-left: auto;
@@ -71,6 +84,17 @@ section {
 
 .completed {
     text-decoration: line-through;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.alert-danger {
+    background-color: #f44336;
 }
   
 footer {
