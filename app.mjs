@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(session({
-  secret: process.env.SECRET_KEY,
+  secret: 'f57099d51eb6889015782b0ea74aaa9b167ec0571c0958aa499ac603acf2b35e1b7af375cfdbff464841393a399ae0c2100074e6a20826612fff8e78d43114bc',
   resave: false,
   saveUninitialized: false
 }));
