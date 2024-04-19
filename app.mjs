@@ -26,6 +26,8 @@ app.use(session({
   saveUninitialized: false
 }));
 app.use(flash());
+console.log('Session Secret:', process.env.SECRET_KEY);
+
 
 app.use(passport.initialize());
 app.use(passport.session());
