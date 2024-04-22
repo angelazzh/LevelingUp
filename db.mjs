@@ -19,14 +19,14 @@ const UserSchema = new mongoose.Schema({
     //     type: String,
     //     required: true
     // },
-    routines: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Routine",
-    }],
-    goals: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Goal",
-    }],
+    // routines: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Routine",
+    // }],
+    // goals: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Goal",
+    // }],
 });
 UserSchema.plugin(passportLocalMongoose);
 const User = mongoose.model('User', UserSchema);
