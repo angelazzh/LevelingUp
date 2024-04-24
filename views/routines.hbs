@@ -1,0 +1,24 @@
+<div class="container">
+  <header>
+    <a href="/" style="text-decoration: none; color: inherit;">
+      <h1>LEVELING UP</h1>
+    </a>
+  </header>
+  <div class="log">
+    <a href="/logout">Logout</a>
+  </div>
+  <div class = "center">
+    <h1>Your Workout Routines</h1>
+    <ul>
+      {{#each routines}}
+        <li>
+          <a href="/routines/{{this._id}}">{{this.name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+    <a href="/routines/create">Create Routine</a>
+  </div>
+</div>
+
+
+

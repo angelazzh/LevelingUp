@@ -1,0 +1,28 @@
+<div class = "container">
+  <header>
+    <a href="/" style="text-decoration: none; color: inherit;">
+      <h1>LEVELING UP</h1>
+    </a>
+  </header>
+  <div class="log">
+    <a href="/logout">Logout</a>
+  </div>
+    <div class="center">
+        <h1>Your Goals</h1>
+        <ul>
+            {{#each goals}}
+                <li class="{{#if this.completed}}completed{{/if}}">
+                    {{this.description}}
+                    <p class="date-red">Due by: {{targetDate}}</p>
+                    <form action="/goals/{{this._id}}/toggle-complete" method="post">
+                        <button type="submit">{{#if this.completed}}Mark Incomplete{{else}}Mark Complete{{/if}}</button>
+                    </form>
+                    <form action="/goals/{{this._id}}/delete" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {{/each}}
+        </ul>
+        <a href="/goals/create">Add New Goal</a>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="container">
+  <header>
+    <a href="/" style="text-decoration: none; color: inherit;">
+      <h1>LEVELING UP</h1>
+    </a>
+  </header>
+  <div class="log">
+    <a href="/logout">Logout</a>
+  </div>
+  <div class="center">
+    {{#with routine}}
+      <h1>{{name}} Exercises</h1>
+      <ul>
+        {{#each exercises}}
+          <li>{{exerciseName}} - Sets: {{sets}}, Reps: {{reps}}</li>
+        {{/each}}
+      </ul>
+    {{/with}}
+    <a href="/routines">Back to Routines</a>
+  </div>
+</div>

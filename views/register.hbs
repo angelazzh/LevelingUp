@@ -1,0 +1,31 @@
+<div class="container">
+    <header>
+        <h1>LEVELING UP</h1>
+    </header>
+</div>
+<div class="register-container">
+    <form action="/register" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required minlength="5">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required pattern="(?=.*\d)(?=.*[!@#$%^&*]).{8,}">
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
+        {{#if errors}}
+            <ul>
+            {{#each errors}}
+                <li>{{this.msg}}</li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    </form>
+    <p class="password-requirements">
+    <strong>Password Requirements:</strong><br>
+    Must be at least 8 characters long, include at least one number, and one special character.
+    </p>
+</div>
