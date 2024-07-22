@@ -9,9 +9,11 @@ import session from 'express-session';
 import passport from 'passport';
 import flash from 'connect-flash';
 import { body, validationResult } from 'express-validator';
+import http from 'http';
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.json());
 
 app.engine('hbs', engine({ extname: '.hbs', defaultLayout: 'main' }));
 app.set('view engine', 'hbs');
@@ -241,6 +243,48 @@ app.post('/goals/:id/delete', isuserAuthenticated, async (req, res) => {
       console.error(error);
       res.status(500).send('Error deleting goal');
   }
+});
+
+app.get('/ask', (req, res) => {
+  res.render('ask');
+});
+
+app.post('/ask', (req, res) => {
+  const userPrompt = req.body.prompt;
+  const data = JSON.stringify({ prompt: userPrompt });
+
+  const options = {
+    hostname: '127.0.0.1',
+    port: 5000,
+    path: '/openai',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
+  };
+
+  const request = http.request(options, (response) => {
+    let data = '';
+    response.on('data', (chunk) => {
+      data += chunk;
+    });
+    response.on('end', () => {
+      try {
+        const parsedData = JSON.parse(data);
+        res.json(parsedData);
+      } catch (e) {
+        console.error('Error parsing response from Python API:', e);
+        res.status(500).send('Failed to parse response from the AI chatbot');
+      }
+    });
+  });
+  request.on('error', (error) => {
+    console.error('Error calling Python API:', error);
+    res.status(500).send('Failed to get response from the AI chatbot');
+  });
+  request.write(data);
+  request.end();
 });
 
 app.listen(process.env.PORT || 3000, () => {
