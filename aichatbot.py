@@ -4,6 +4,7 @@ import os
 from openai import AzureOpenAI
 from pymongo import MongoClient
 from bson import ObjectId
+import requests
 
 load_dotenv(find_dotenv())
 
@@ -29,7 +30,7 @@ conversations = {}
 def converse_with_chatbot():
     data = request.get_json()
     session_id = data.get('session_id', 'default_session')
-    user_message = data.get('prompt', '')
+    user_message = data.get('prompt', '').lower()
     user_id = data.get('user_id', None)
 
     if session_id not in session or 'user_routines' not in session[session_id]:

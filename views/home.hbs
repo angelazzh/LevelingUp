@@ -1,7 +1,10 @@
 <body>
     <div class="container">
         <header>
-            <h1>LEVELING UP</h1>
+             <a href="/" style="text-decoration: none; color: inherit;">
+                <img class="logo" src="/images/logo.png" alt="Logo">
+                <h1>LEVELING UP</h1>
+            </a>
         </header>
         <div class="log">
             {{#if user}}
@@ -14,7 +17,7 @@
         <main>
             <section class="greeting">
                 <p>{{greeting}}, {{name}}</p>
-                <p>{{date}}</p>
+                <p>Today is {{date}}</p>
             </section>
             <section class="content">
                 {{#if user}}

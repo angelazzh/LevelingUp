@@ -21,6 +21,15 @@ header {
     color: #fff;
     padding: 20px 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    height: 50px; 
+    margin-right: 20px;
+    filter: brightness(0) invert(1);
 }
 
 .login-container {
