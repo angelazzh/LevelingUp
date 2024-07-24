@@ -74,7 +74,7 @@ app.post('/register',
           console.error(err);
           return res.render('register', { error: 'Auto-login failed.' });
         }
-        return res.redirect('/');
+        return res.redirect('/login');
     });
   } catch (error) {
     if (error.name === 'UserExistsError') {
@@ -90,10 +90,12 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',         
   failureRedirect: '/login',   
   failureFlash: true
-}));
+}), (req, res) => {
+  req.session.user_id = req.user._id; 
+  res.redirect('/'); 
+});
 
 app.get('/logout', (req, res) => {
   req.logout((err) => {
@@ -117,11 +119,11 @@ app.get('/', async (req, res) => {
       const currentTime = moment();
       let greeting = "Hello";
       if (currentTime.hour() < 12) {
-          greeting = "Good Morning";
+          greeting = "☕Good Morning";
       } else if (currentTime.hour() < 18) {
-          greeting = "Good Afternoon";
+          greeting = "🌞Good Afternoon";
       } else {
-          greeting = "Good Evening";
+          greeting = "🌙Good Evening";
       }
       res.render('home', {
           layout: 'main',
@@ -250,8 +252,13 @@ app.get('/ask', (req, res) => {
 });
 
 app.post('/ask', (req, res) => {
+  const userId = req.session.user_id;
   const userPrompt = req.body.prompt;
-  const data = JSON.stringify({ prompt: userPrompt });
+
+  const data = JSON.stringify({
+    prompt: userPrompt,
+    user_id: userId
+  }); 
 
   const options = {
     hostname: '127.0.0.1',
@@ -260,18 +267,19 @@ app.post('/ask', (req, res) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Length': Buffer.byteLength(data)
     }
   };
 
   const request = http.request(options, (response) => {
-    let data = '';
+    let responseData = '';
     response.on('data', (chunk) => {
-      data += chunk;
+      responseData += chunk;
     });
+
     response.on('end', () => {
       try {
-        const parsedData = JSON.parse(data);
+        const parsedData = JSON.parse(responseData);
         res.json(parsedData);
       } catch (e) {
         console.error('Error parsing response from Python API:', e);
